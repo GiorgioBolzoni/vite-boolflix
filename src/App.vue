@@ -1,5 +1,5 @@
 <template>
-  <header class="d-flex">
+  <header class="d-flex p-3">
     <NavBar @search-media="functionSearchMedia" />
   </header>
 
@@ -11,8 +11,8 @@
           <strong>{{ movie.title }}</strong>
           <img :src="'https://image.tmdb.org/t/p/w300' + movie.poster_path" alt="img">
           <strong>Titolo originale:</strong> {{ movie.original_title }}
-            <div>
-              <strong>Lingua:</strong> {{ movie.original_language }}
+            <div id="len">
+              <strong>Lingua:</strong> <img :src="getFlagUrl(movie.original_language)" alt="Flag">
             </div>
             <div>
               <strong>Voto:</strong> {{ movie.vote_average }}
@@ -28,8 +28,8 @@
           <strong>{{ serie.name }}</strong>
           <img :src="'https://image.tmdb.org/t/p/w300' + serie.poster_path" alt="img">
           <strong>Titolo originale:</strong> {{ serie.original_name }}
-            <div>
-              <strong>Lingua:</strong> {{ serie.original_language }}
+            <div id="len">
+              <strong>Lingua:</strong> <img :src="getFlagUrl(serie.original_language)" alt="Flag">
             </div>
             <div>
               <strong>Voto:</strong> {{ serie.vote_average }}
@@ -89,7 +89,26 @@ import NavBar from './components/header/NavBar.vue';
       this.store.params.query = searchInput;
       this.getMoviesAndSeries();
     },
-    
+    getFlagUrl(language) {
+    switch (language) {
+      case 'it':
+        return './images/it.svg'; 
+      case 'en':
+        return './images/gb.svg'; 
+      case 'jp':
+        return './images/jp.svg'; 
+      case 'de':
+        return './images/de.svg'; 
+      case 'fr':
+        return './images/fr.svg'; 
+      case 'kr':
+        return './images/kr.svg'; 
+      case 'us':
+        return './images/us.svg'; 
+      default:
+        return './images/it.svg'; // Immagine di fallback per le lingue senza bandiera
+    }
+  },
   },
   created(){
     this.getMoviesAndSeries();
@@ -99,5 +118,10 @@ import NavBar from './components/header/NavBar.vue';
 </script>
 
 <style lang="scss" scoped>
+  #len{
 
+    img{
+      width: 20px;
+    }
+  }
 </style>
