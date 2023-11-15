@@ -15,7 +15,7 @@
               <strong>Lingua:</strong> <img :src="getFlagUrl(movie.original_language)" alt="Flag">
             </div>
             <div>
-              <strong>Voto:</strong> {{ movie.vote_average }}
+              <strong>Voto:</strong> {{ convertRatingToStars(movie.vote_average) }}
             </div>
             
         </div>
@@ -32,7 +32,7 @@
               <strong>Lingua:</strong> <img :src="getFlagUrl(serie.original_language)" alt="Flag">
             </div>
             <div>
-              <strong>Voto:</strong> {{ serie.vote_average }}
+              <strong>Voto:</strong> {{ convertRatingToStars(serie.vote_average) }}
             </div>
         </div>
       </div>
@@ -42,7 +42,6 @@
 
 
 <script>
-import "/node_modules/flag-icons/css/flag-icons.min.css";
 import { store } from './data/store'; 
 import axios from 'axios';
 import NavBar from './components/header/NavBar.vue'; 
@@ -106,8 +105,15 @@ import NavBar from './components/header/NavBar.vue';
       case 'us':
         return './images/us.svg'; 
       default:
-        return './images/it.svg'; // Immagine di fallback per le lingue senza bandiera
+        return './images/it.svg'; 
     }
+  },
+  convertRatingToStars(rating) {
+    const roundedRating = Math.ceil(rating / 2); 
+    // const fullStars = `<i class="fa-solid fa-star" style="color: #fff71a;"></i>`.repeat(roundedRating);
+    // const emptyStars = `<i class="fa-regular fa-star"></i>`.repeat(5 - roundedRating);
+    // return fullStars + emptyStars;
+    return '⭐'.repeat(roundedRating) + '☆'.repeat(5 - roundedRating);
   },
   },
   created(){
