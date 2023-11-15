@@ -7,18 +7,33 @@
     <section id="Movie" class="container">
       <h2>Movies</h2>
       <div class="row">
-        <div class="col-12 col-md-4 col-lg-3" v-for="(movie, index) in filteredMovies" :key="movie.id">
-          {{ movie.title }}
+        <div class="col-12 col-md-4 col-lg-3 py-3" v-for="(movie, index) in filteredMovies" :key="movie.id">
+          <strong>{{ movie.title }}</strong>
           <img :src="'https://image.tmdb.org/t/p/w300' + movie.poster_path" alt="img">
+          <strong>Titolo originale:</strong> {{ movie.original_title }}
+            <div>
+              <strong>Lingua:</strong> {{ movie.original_language }}
+            </div>
+            <div>
+              <strong>Voto:</strong> {{ movie.vote_average }}
+            </div>
+            
         </div>
       </div>
     </section>
     <section id="tv" class="container">
       <h2>Tv</h2>
       <div class="row">
-        <div class="col-12 col-md-4 col-lg-3" v-for="(serie, index) in filteredSeries" :key="serie.id">
-          {{ serie.name }}
+        <div class="col-12 col-md-4 col-lg-3 py-3" v-for="(serie, index) in filteredSeries" :key="serie.id">
+          <strong>{{ serie.name }}</strong>
           <img :src="'https://image.tmdb.org/t/p/w300' + serie.poster_path" alt="img">
+          <strong>Titolo originale:</strong> {{ serie.original_name }}
+            <div>
+              <strong>Lingua:</strong> {{ serie.original_language }}
+            </div>
+            <div>
+              <strong>Voto:</strong> {{ serie.vote_average }}
+            </div>
         </div>
       </div>
     </section>
