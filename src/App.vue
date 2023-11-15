@@ -7,16 +7,22 @@
     <section id="Movie" class="container">
       <h2>Movies</h2>
       <div class="row">
-        <div class="col-12 col-md-4 col-lg-3 py-3" v-for="(movie, index) in filteredMovies" :key="movie.id">
-          <strong>{{ movie.title }}</strong>
-          <img :src="'https://image.tmdb.org/t/p/w300' + movie.poster_path" alt="img">
-          <strong>Titolo originale:</strong> {{ movie.original_title }}
-            <div id="len">
+        <div class="col-12 col-md-4 col-lg-3 my-3 card-total" v-for="(movie, index) in filteredMovies" :key="movie.id" style="cursor: pointer;">
+          <div class="text-center py-2 card-title">
+            <strong>{{ movie.title }}</strong>
+          </div>
+          <img :src="'https://image.tmdb.org/t/p/w300' + movie.poster_path" alt="img" class="poster">
+          <div class="card-info">
+            <div class="py-2">
+            <strong>Titolo originale:</strong> {{ movie.original_title }}
+          </div>
+            <div id="len" >
               <strong>Lingua:</strong> <img :src="getFlagUrl(movie.original_language)" alt="Flag">
             </div>
-            <div>
+            <div class="py-2">
               <strong>Voto:</strong> {{ convertRatingToStars(movie.vote_average) }}
             </div>
+          </div>
             
         </div>
       </div>
@@ -24,16 +30,23 @@
     <section id="tv" class="container">
       <h2>Tv</h2>
       <div class="row">
-        <div class="col-12 col-md-4 col-lg-3 py-3" v-for="(serie, index) in filteredSeries" :key="serie.id">
-          <strong>{{ serie.name }}</strong>
-          <img :src="'https://image.tmdb.org/t/p/w300' + serie.poster_path" alt="img">
-          <strong>Titolo originale:</strong> {{ serie.original_name }}
-            <div id="len">
+        <div class="col-12 col-md-4 col-lg-3 my-3 card-total" v-for="(serie, index) in filteredSeries" :key="serie.id" style="cursor: pointer;">
+          <div class="text-center py-2 card-title">
+            <strong>{{ serie.name }}</strong>
+          </div>
+          <img :src="'https://image.tmdb.org/t/p/w300' + serie.poster_path" alt="img" class="poster">
+          <div class="card-info">
+            <div class="py-2">
+            <strong>Titolo originale:</strong> {{ serie.original_title }}
+          </div>
+            <div id="len" >
               <strong>Lingua:</strong> <img :src="getFlagUrl(serie.original_language)" alt="Flag">
             </div>
-            <div>
+            <div class="py-2">
               <strong>Voto:</strong> {{ convertRatingToStars(serie.vote_average) }}
             </div>
+          </div>
+            
         </div>
       </div>
     </section>
@@ -124,10 +137,45 @@ import NavBar from './components/header/NavBar.vue';
 </script>
 
 <style lang="scss" scoped>
+body{
+  background-color: black;
+}
+
+header{
+  background-color: black;
+  position: fixed;
+  z-index: 1000;
+  width: 100%;
+  box-shadow: 2px 2px 2px black;
+  height: 80px;
+  top: 0;
+  left: 0;
+}
+main{
+  background-color: rgb(24, 24, 24);
+  color: white;
+  height: calc(100% - 80px);
+  margin-top: 80px;
+}
+h2{
+  font-size: 3em;
+  text-shadow: 5px 5px 3px black;
+}
   #len{
 
     img{
       width: 20px;
     }
   }
+.card-title{
+  background-color: rgb(155, 0, 0);
+  max-height: 25%;
+}
+.card-info{
+  background-color: rgb(0, 0, 0);
+  padding: 10px;
+}
+.poster{
+  width: 100%;
+}
 </style>

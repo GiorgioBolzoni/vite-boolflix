@@ -1,8 +1,10 @@
 <template>
+    <div class="container d-flex justify-content-between align-items-center">
+        <h1>BOOFLIX</h1>
     <div>
         <input type="text" id="media-search-input" placeholder="Cerca film o serie TV..." v-model="searchInput" @keyup.enter="searchMedia">
-        <button @click="searchMedia">Cerca</button>
-        
+        <button @click="searchMedia" class="px-2">Cerca</button>
+    </div>
     </div>
 </template>
 
@@ -23,5 +25,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+    h1{
+        color: red;
+    }
+    button{
+        background-color: transparent;
+        color: white;
+        font-weight: 600;
+    }
 </style>
