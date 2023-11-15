@@ -7,18 +7,18 @@
     <section id="Movie" class="container">
       <h2>Movies</h2>
       <div class="row">
-        <div class="col-12 col-md-4 col-lg-3" v-for="(movie, index) in movieList" :key="movie.id">
+        <div class="col-12 col-md-4 col-lg-3" v-for="(movie, index) in filteredMovies" :key="movie.id">
           {{ movie.title }}
+          <img :src="'https://image.tmdb.org/t/p/w300' + movie.poster_path" alt="img">
         </div>
       </div>
     </section>
     <section id="tv" class="container">
       <h2>Tv</h2>
       <div class="row">
-        <div class="col-12 col-md-4 col-lg-3" v-for="(serie, index) in seriesList" :key="serie.id">
+        <div class="col-12 col-md-4 col-lg-3" v-for="(serie, index) in filteredSeries" :key="serie.id">
           {{ serie.name }}
-          <img :src="'https://image.tmdb.org/t/p/w300' + serie.backdrop_path" alt="img">
-          
+          <img :src="'https://image.tmdb.org/t/p/w300' + serie.poster_path" alt="img">
         </div>
       </div>
     </section>
@@ -27,6 +27,7 @@
 
 
 <script>
+import "/node_modules/flag-icons/css/flag-icons.min.css";
 import { store } from './data/store'; 
 import axios from 'axios';
 import NavBar from './components/header/NavBar.vue'; 
@@ -39,6 +40,7 @@ import NavBar from './components/header/NavBar.vue';
   data() {
     return {
       store,
+      searchInput: '',
     }
   },
   computed: {
@@ -72,6 +74,7 @@ import NavBar from './components/header/NavBar.vue';
       this.store.params.query = searchInput;
       this.getMoviesAndSeries();
     },
+    
   },
   created(){
     this.getMoviesAndSeries();
