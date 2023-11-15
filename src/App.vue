@@ -1,7 +1,6 @@
 <template>
   <header class="d-flex">
-    <NavBar />
-    <button type="button" class="ms-1" @click="getMoviesAndSeries()">Search</button>
+    <NavBar @search-media="functionSearchMedia" />
   </header>
 
   <main>
@@ -42,6 +41,16 @@ import NavBar from './components/header/NavBar.vue';
       store,
     }
   },
+  computed: {
+    filteredMovies() {
+      // Filtra film in base alla ricerca
+      return this.store.movieList.filter(movie => movie.title.toLowerCase().includes(this.searchInput.toLowerCase()));
+    },
+    filteredSeries() {
+      // Filtra serie TV in base alla ricerca
+      return this.store.seriesList.filter(serie => serie.name.toLowerCase().includes(this.searchInput.toLowerCase()));
+    },
+  },
   methods: {
     getMoviesAndSeries(){
       const movieurl = store.apiUrl + this.store.endPoint.movies;
@@ -59,7 +68,10 @@ import NavBar from './components/header/NavBar.vue';
         this.store.seriesList= res.data.results;
       });
     },
-    
+    functionSearchMedia(searchInput) {
+      this.store.params.query = searchInput;
+      this.getMoviesAndSeries();
+    },
   },
   created(){
     this.getMoviesAndSeries();

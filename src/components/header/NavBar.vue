@@ -1,6 +1,7 @@
 <template>
     <div>
-        <input type="search">
+        <input type="text" id="media-search-input" placeholder="Cerca film o serie TV..." v-model="searchInput" @keyup.enter="searchMedia">
+        <button @click="searchMedia">Cerca</button>
         
     </div>
 </template>
@@ -8,11 +9,16 @@
 <script>
 export default {
     name: 'NavBar',
-    setup () {
-        
-
-        return {}
+    data() {
+        return {
+      searchInput: '',
     }
+  },
+  methods: {
+    searchMedia() {
+      this.$emit('search-media', this.searchInput);
+    },
+  },
 }
 </script>
 
