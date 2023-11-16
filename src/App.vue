@@ -3,52 +3,83 @@
     <NavBar @search-media="functionSearchMedia" />
   </header>
 
-  <main>
-    <section id="Movie" class="container">
-      <h2>Movies</h2>
-      <div class="row">
-        <div class="col-12 col-md-4 col-lg-3 my-3 card-total" v-for="(movie, index) in filteredMovies" :key="movie.id" style="cursor: pointer;">
-          <div class="text-center py-2 card-title">
-            <strong>{{ movie.title }}</strong>
-          </div>
-          <img :src="'https://image.tmdb.org/t/p/w300' + movie.poster_path" alt="img" class="poster">
-          <div class="card-info">
-            <div class="py-2">
-            <strong>Titolo originale:</strong> {{ movie.original_title }}
-          </div>
-            <div id="len" >
-              <strong>Lingua:</strong> <img :src="getFlagUrl(movie.original_language)" alt="Flag">
-            </div>
-            <div class="py-2">
-              <strong>Voto:</strong> {{ convertRatingToStars(movie.vote_average) }}
-            </div>
-          </div>
+  <main class="py-3">
+      <section id="Movie" class="container">
+        <h2>Movies</h2>
+        <div class="row">
+          <div
+            class="col-12 col-md-4 col-lg-3 my-3 card-total overflow-hidden"
+            v-for="(movie, index) in filteredMovies"
+            :key="movie.id"
+            style="cursor: pointer;"
+            @mouseover="showInfo(index)"
+            @mouseout="hideInfo()"
+          >
+            <img :src="'https://image.tmdb.org/t/p/w342' + movie.poster_path" alt="img" class="poster" style="cursor: pointer;">
             
+            <div :class="{ 'd-none': !isInfoVisible || currentIndex !== index, 'result-card': true, 'card-info': true }">
+              <div>
+                <div class="text-center p-2 card-title mb-3 fs-5">
+                  <strong>{{ movie.title }}</strong>
+                </div>
+                <div class="container">
+                  <div class="py-2">
+                  <strong>Titolo originale:</strong> {{ movie.original_title }}
+                </div>
+
+                  <div>
+                  <strong>Data di uscita:</strong> {{ movie.release_date }}
+                </div>
+                <div id="len" >
+                  <strong>Lingua:</strong> <img :src="getFlagUrl(movie.original_language)" alt="Flag">
+                </div>
+                <div class="py-2">
+                  <strong>Voto:</strong> {{ convertRatingToStars(movie.vote_average) }} {{ movie.vote_count }} recensioni
+                </div>
+                <div class="py-2">
+                  <strong>Overview:</strong> {{ movie.overview }}
+                </div>
+                </div>
+                
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
     <section id="tv" class="container">
-      <h2>Tv</h2>
-      <div class="row">
-        <div class="col-12 col-md-4 col-lg-3 my-3 card-total" v-for="(serie, index) in filteredSeries" :key="serie.id" style="cursor: pointer;">
-          <div class="text-center py-2 card-title">
-            <strong>{{ serie.name }}</strong>
-          </div>
-          <img :src="'https://image.tmdb.org/t/p/w300' + serie.poster_path" alt="img" class="poster">
-          <div class="card-info">
-            <div class="py-2">
-            <strong>Titolo originale:</strong> {{ serie.original_title }}
-          </div>
-            <div id="len" >
-              <strong>Lingua:</strong> <img :src="getFlagUrl(serie.original_language)" alt="Flag">
-            </div>
-            <div class="py-2">
-              <strong>Voto:</strong> {{ convertRatingToStars(serie.vote_average) }}
-            </div>
-          </div>
+      <h2>TV Series</h2>
+        <div class="row">
+          <div
+            class="col-12 col-md-4 col-lg-3 my-3 card-total overflow-hidden"
+            v-for="(serie, index) in filteredSeries"
+            :key="serie.id"
+            style="cursor: pointer;"
+            @mouseover="showInfo(index)"
+            @mouseout="hideInfo()"
+          >
+            <img :src="'https://image.tmdb.org/t/p/w300' + serie.poster_path" alt="img" class="poster" style="cursor: pointer;">
             
+            <div :class="{ 'd-none': !isInfoVisible || currentIndex !== index, 'result-card': true, 'card-info': true }">
+              <div>
+                <div class="text-center p-2 card-title mb-3 fs-5">
+                  <strong>{{ serie.name }}</strong>
+                </div>
+                <div class="container py-2">
+                  <strong>Titolo originale:</strong> {{ serie.original_name }}
+                <div id="len" >
+                  <strong>Lingua:</strong> <img :src="getFlagUrl(serie.original_language)" alt="Flag">
+                </div>
+                <div class="py-2">
+                  <strong>Voto:</strong> {{ convertRatingToStars(serie.vote_average) }} {{ serie.vote_count }} recensioni
+                </div>
+                <div class="py-2 overflow-y-auto">
+                  <strong>Overview:</strong> {{ serie.overview }}
+                </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
     </section>
   </main>
 </template>
@@ -68,11 +99,12 @@ import NavBar from './components/header/NavBar.vue';
     return {
       store,
       searchInput: '',
+      isInfoVisible: false,
+      currentIndex: -1,
     }
   },
   computed: {
     filteredMovies() {
-      // Filtra film in base alla ricerca
       return this.store.movieList.filter(movie => movie.title.toLowerCase().includes(this.searchInput.toLowerCase()));
     },
     filteredSeries() {
@@ -128,6 +160,14 @@ import NavBar from './components/header/NavBar.vue';
     // return fullStars + emptyStars;
     return '⭐'.repeat(roundedRating) + '☆'.repeat(5 - roundedRating);
   },
+  showInfo(index) {
+      this.isInfoVisible = true;
+      this.currentIndex = index;
+    },
+    hideInfo() {
+      this.isInfoVisible = false;
+      this.currentIndex = -1;
+    }
   },
   created(){
     this.getMoviesAndSeries();
@@ -137,45 +177,7 @@ import NavBar from './components/header/NavBar.vue';
 </script>
 
 <style lang="scss" scoped>
-body{
-  background-color: black;
-}
-
-header{
-  background-color: black;
-  position: fixed;
-  z-index: 1000;
-  width: 100%;
-  box-shadow: 2px 2px 2px black;
-  height: 80px;
-  top: 0;
-  left: 0;
-}
-main{
-  background-color: rgb(24, 24, 24);
-  color: white;
-  height: calc(100% - 80px);
-  margin-top: 80px;
-}
-h2{
-  font-size: 3em;
-  text-shadow: 5px 5px 3px black;
-}
-  #len{
-
-    img{
-      width: 20px;
-    }
+  strong{
+    font-size: larger;
   }
-.card-title{
-  background-color: rgb(155, 0, 0);
-  max-height: 25%;
-}
-.card-info{
-  background-color: rgb(0, 0, 0);
-  padding: 10px;
-}
-.poster{
-  width: 100%;
-}
 </style>
